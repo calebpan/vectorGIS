@@ -33,7 +33,7 @@ import fiona,glob
 #==============================================================================
 
 shp = '/anx_lagr2/caleb/GitHub/WMO_50km_buffer.shp'
-outfoldershp = '/anx_lagr2/caleb/GitHub//Buffer_wmo/'
+outfoldershp = '/anx_lagr2/caleb/GitHub/data/Buffer_wmo/'
 wmo = fiona.open(shp)
 for i in range((len(wmo))):
     with fiona.drivers():
