@@ -2,7 +2,7 @@
 // VISUALIZE THE SPECTRAL VARIABILITY ALONG A SPATIAL GRADIENT.
 // THE SCRIPT REQUIRES ONLY AN INPUT POINT SHAPEFILE WITH A COLUMN CALLED 'distance', 
 // THIS COLUMN IS A CUMULATIVE SUMMMATION, PREDICATED ON THE SPATIAL RESOULTION OF
-// THE INPUT IMAGES (HERE ITS 30 M).
+// THE INPUT IMAGES (HERE ITS 30 M). 
 var rgb = {min: 0.0,max: 900,bands: ['B4', 'B3', 'B2']};
 
 // SUBSET POINT TRANSECT TO BE LESS THAN 5000 POINTS. WE USE THE 'distance' COLUMN TO DO THIS
@@ -12,9 +12,7 @@ print(shp.size(),'sub size'); //make sure length is less than 5000
 // SET VARIABLES
 var start = '2019-08-29';
 var end = '2019-08-30';
-var toacoll = 'COPERNICUS/S2';
 var srcoll = 'COPERNICUS/S2_SR';
-var toalabel = 'Top of Atmosphere';
 var srlabel = 'Surface Reflectance';
 
 var coll = srcoll;
@@ -37,7 +35,7 @@ var swir = s2.select('B11');
 var swir2 = s2.select('B12');
 
 // EXTRACT VALUES AT POINTS
-var outblue = ee.FeatureCollection(shp.map(function(ft){
+var outcoll = ee.FeatureCollection(shp.map(function(ft){
     var bluestats = blue.reduceRegion({
       reducer: ee.Reducer.median(),
       geometry: ft.geometry(),
@@ -85,7 +83,7 @@ var outblue = ee.FeatureCollection(shp.map(function(ft){
     });
     return stats;
   }));
-print(outblue);
+print(outcoll);
 
 // SET PLOT OPTIONS AND PLOT TRANSECT
 var options = {
@@ -94,7 +92,7 @@ var options = {
   vAxis: {title: ylabel},
 };
 
-var chart = ui.Chart.feature.byFeature(outblue, 'Distance')
+var chart = ui.Chart.feature.byFeature(outcoll, 'Distance')
   .setChartType('LineChart')
   .setOptions(options);
 print(chart,'chart');
