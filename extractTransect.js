@@ -3,7 +3,8 @@
 // THE SCRIPT REQUIRES ONLY AN INPUT POINT SHAPEFILE WITH A COLUMN CALLED 'distance', 
 // THIS COLUMN IS A CUMULATIVE SUMMMATION, PREDICATED ON THE SPATIAL RESOULTION OF
 // THE INPUT IMAGES (HERE ITS 30 M). 
-var rgb = {min: 0.0,max: 900,bands: ['B4', 'B3', 'B2']};
+Map.centerObject(fulltransect);
+Map.addLayer(fulltransect, {}, 'Point Transect')
 
 // SUBSET POINT TRANSECT TO BE LESS THAN 5000 POINTS. WE USE THE 'distance' COLUMN TO DO THIS
 var shp = fulltransect.filter(ee.Filter.lte('distance', 149000)).sort('distance'); //149000 is closest to 5k
@@ -12,11 +13,8 @@ print(shp.size(),'sub size'); //make sure length is less than 5000
 // SET VARIABLES
 var start = '2019-08-29';
 var end = '2019-08-30';
-var srcoll = 'COPERNICUS/S2_SR';
-var srlabel = 'Surface Reflectance';
-
-var coll = srcoll;
-var ylabel = srlabel;
+var coll = 'COPERNICUS/S2_SR';
+var ylabel = 'Surface Reflectance';
 
 // CREATE IMAGE COLLECTION
 var s2coll = ee.ImageCollection(coll)
